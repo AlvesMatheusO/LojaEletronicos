@@ -36,10 +36,10 @@ public class EmployeeData {
 
     public void inserir(Employee Employee) throws SQLException {
         conectar();
-        String query = "INSERT INTO Employees (nome, cargo) VALUES (?, ?)";
+        String query = "INSERT INTO Employees (nome, role) VALUES (?, ?)";
         PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query);
         preparedStatement.setString(1, Employee.getName());
-        preparedStatement.setString(2, Employee.getCargo());
+        preparedStatement.setString(2, Employee.getRole());
         preparedStatement.executeUpdate();
         preparedStatement.close();
         desconectar();
@@ -54,10 +54,10 @@ public class EmployeeData {
 
         Employee employee = null;
         if (resultSet.next()) {
-            employee = new Employee();
+            employee = new Employee(id, query, query);
             employee.setId(resultSet.getInt("id"));
             employee.setName(resultSet.getString("nome"));
-            employee.setCargo(resultSet.getString("cargo"));
+            employee.setRole(resultSet.getString("role"));
         }
 
         resultSet.close();
@@ -75,10 +75,10 @@ public class EmployeeData {
 
         List<Employee> employees = new ArrayList<>();
         while (resultSet.next()) {
-            Employee employee = new Employee();
+            Employee employee = new Employee(0, query, query);
             employee.setId(resultSet.getInt("id"));
             employee.setName(resultSet.getString("nome"));
-            employee.setCargo(resultSet.getString("cargo"));
+            employee.setRole(resultSet.getString("role"));
             employees.add(employee);
         }
 
@@ -91,10 +91,10 @@ public class EmployeeData {
 
     public void atualizar(Employee employee) throws SQLException {
         conectar();
-        String query = "UPDATE Employees SET nome = ?, cargo = ? WHERE id = ?";
+        String query = "UPDATE Employees SET nome = ?, role = ? WHERE id = ?";
         PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query);
         preparedStatement.setString(1, employee.getName());
-        preparedStatement.setString(2, employee.getCargo());
+        preparedStatement.setString(2, employee.getRole());
         preparedStatement.setFloat(3, employee.getId());
         preparedStatement.executeUpdate();
         preparedStatement.close();
